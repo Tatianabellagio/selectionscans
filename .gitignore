@@ -1,0 +1,13 @@
+# Ignore everything by default
+*
+
+# But not these directories (so git can recurse into them)
+!*/
+
+# Allow code files (unignore these extensions)
+!*.py
+!*.R
+!*.ipynb
+!.gitignore
+!README.md
+
