@@ -1,4 +1,4 @@
-# Selection Scans Analysis
+# Selection scans
 
 Modern vs historical analysis 
 
