@@ -2,32 +2,25 @@
 
 - Modern vs historical analysis 
 
-Pi Comparison**
+Pi (π) change
 `df_pi_hist_vs_modern_w1000.csv`
 
-Historical vs Modern Population Differentiation Analysis
-
-FST, delta allele freq and delta heteroz 
+FST, allele frequency change and heterozigocity change
 `fst_deltaaf_deltahe.csv`
 
 - Just modern samples analysis to look for selective sweeps 
 
-Haplotype-Based Selection Tests
-
-Integrated Haplotype Homozygosity (iHH)
+iHH
 `selection_scan/ihh12_maf01_all.csv`
 
-Normalized Site Frequency Spectrum Length (nSL)
+nSL
 `selection_scan/nsl_all_maf01.csv`
 
-Nucleotide Diversity Analysis
-
-Pi (π) Analysis**
+Pi (π) 
 `selection_scan/pi_all_maf01.csv`
 
-
-SweepFinder Analysis
+SweepFinder
 `sweepfinder/sweep_df_results100w_nb.csv`
 
-Omega: detects complete selective sweeps using linkage- disequilibrium (LD) patterns of SNPs
+Omega 
 `omega/omega_grid1000.csv`
