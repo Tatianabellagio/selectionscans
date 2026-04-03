@@ -76,12 +76,6 @@ figures/                       # Result plots
 
 ---
 
-## Possible follow-up analyses
-
-- Haplotype sharing between sweep peaks and candidate genes
-- Per-cluster GEA (e.g. Spanish ecotypes) to identify local/climate adaptation signals beyond global sweeps
-
----
 
 ## Tools & dependencies
 
