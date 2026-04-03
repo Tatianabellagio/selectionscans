@@ -35,31 +35,6 @@ Around **AT4G05100**, the signal is more consistent with an **incomplete sweep**
 
 ---
 
-## Plots
-
-### Diversity decay around AT2G21840
-
-![Diversity decay wide](figures/diversity_decay_AT2G21840_100kb.png)
-*π (normalized) across a 200 kb window. Sharp drop to near zero at the gene center.*
-
-![Diversity decay zoom](figures/diversity_decay_AT2G21840_zoom.png)
-*Zoomed to ±35 kb. The diversity trough is tightly localized around AT2G21840–AT2G21860.*
-
-### SweepFinder2 CLR — genome-wide
-
-![SweepFinder2](figures/sweepfinder2_CLR_genome.png)
-*Composite likelihood ratio across all 5 chromosomes. AT2G21860 shows the highest CLR peak genome-wide.*
-
-### Modern vs historical — FST
-
-![FST Manhattan](figures/fst_manhattan_hist_vs_modern.png)
-*Per-SNP FST between historical and modern samples. Peaks at the same candidate loci identified by GWAS.*
-
-### Modern vs historical — |ΔAF|
-
-![DeltaAF Manhattan](figures/deltaAF_manhattan_hist_vs_modern.png)
-*Absolute allele frequency change between time points. Red dashed line = 99th percentile threshold.*
-
 ---
 
 ## Analyses
