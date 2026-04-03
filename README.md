@@ -2,30 +2,88 @@
 
 Selection scan analyses for *Arabidopsis thaliana* populations. The repository compares modern and historical samples to detect signatures of recent selection, and applies multiple complementary statistics to identify selective sweeps in contemporary populations.
 
+All code, step-by-step methodology, and result datasets are in this repository. Each analysis notebook links to the relevant tool documentation with explanations of the theory behind each statistic.
+
+---
+
+## Summary of findings
+
+Two sets of analyses were performed:
+
+**1. Modern vs historical comparison** (FST, ΔAF, Δheterozygosity, Δπ) — Cross-checks with independent temporal data. Results are consistent with GWAS hits and provide a useful validation layer, particularly for variants showing frequency shifts between time points.
+
+**2. Selective sweep scans on modern samples** (iHH12, nSL, π, SweepFinder2, Omega) — Each tool captures a different genomic signal left by a sweep (reduced diversity, elevated haplotype homozygosity, high LD, shifts in the SFS), making them complementary.
+
+### Key candidate: AT2G21840 – AT2G21860 (Chr 2)
+
+The strongest and most consistent signal is near **AT2G21840–AT2G21860**:
+
+- A sharp reduction in nucleotide diversity (π) is visible in modern (1001 Genomes) samples within ~5 kb of those genes, consistent with a **completed selective sweep** (virtually no diversity remaining)
+- **SweepFinder2** shows a major CLR peak within 50 kb of this region — the highest genome-wide signal
+- The modern vs historical comparison (FST and ΔAF) also peaks around these genes, consistent with the GEA/GWAS hits
+- Other haplotype-based statistics (iHH12, nSL) have difficulty detecting this signal, likely because the sweep is complete and rare alleles have been removed — many tools filter on low MAF, which would exclude the sweep footprint
+
+This pattern suggests a **hard, completed sweep** at or near AT2G21840.
+
+### Secondary candidate: AT4G05100 (Chr 4)
+
+Around **AT4G05100**, the signal is more consistent with an **incomplete sweep**:
+
+- iHH12 and nSL both show elevated homozygosity at this locus — the classic signature of a sweep in progress
+- The signal is not a dominant peak but shows consistent low heterozygosity surrounded by regions of higher heterozygosity
+- Also recovers as a peak in the modern vs historical FST and ΔAF comparison
+
+---
+
+## Plots
+
+### Diversity decay around AT2G21840
+
+![Diversity decay wide](figures/diversity_decay_AT2G21840_100kb.png)
+*π (normalized) across a 200 kb window. Sharp drop to near zero at the gene center.*
+
+![Diversity decay zoom](figures/diversity_decay_AT2G21840_zoom.png)
+*Zoomed to ±35 kb. The diversity trough is tightly localized around AT2G21840–AT2G21860.*
+
+### SweepFinder2 CLR — genome-wide
+
+![SweepFinder2](figures/sweepfinder2_CLR_genome.png)
+*Composite likelihood ratio across all 5 chromosomes. AT2G21860 shows the highest CLR peak genome-wide.*
+
+### Modern vs historical — FST
+
+![FST Manhattan](figures/fst_manhattan_hist_vs_modern.png)
+*Per-SNP FST between historical and modern samples. Peaks at the same candidate loci identified by GWAS.*
+
+### Modern vs historical — |ΔAF|
+
+![DeltaAF Manhattan](figures/deltaAF_manhattan_hist_vs_modern.png)
+*Absolute allele frequency change between time points. Red dashed line = 99th percentile threshold.*
+
 ---
 
 ## Analyses
 
 ### Modern vs historical
 
-Compares allele frequency spectra and diversity statistics between historical and modern GrENE-Net samples to detect loci with signatures of recent directional change.
-
 | Statistic | File |
 |-----------|------|
 | Nucleotide diversity (π) | `df_pi_hist_vs_modern_w1000.csv` |
 | FST, ΔAF, ΔHe | `fst_deltaaf_deltahe.csv` |
 
+Notebook: `modern_vs_historical.ipynb`
+
 ### Selective sweep scans (modern samples)
 
-Multiple statistics applied genome-wide to identify candidate sweep regions.
+| Method | Signal detected | File |
+|--------|----------------|------|
+| iHH12 | Elevated haplotype homozygosity | `selection_scan/ihh12_maf01_all.csv` |
+| nSL | Elevated haplotype homozygosity | `selection_scan/nsl_all_maf01.csv` |
+| π | Reduced nucleotide diversity | `selection_scan/pi_all_maf01.csv` |
+| SweepFinder2 | Shift in site frequency spectrum | `sweepfinder/sweep_df_results100w_nb.csv` |
+| Omega | High LD flanking the sweep | `omega/omega_grid1000.csv` |
 
-| Method | File |
-|--------|------|
-| iHH12 | `selection_scan/ihh12_maf01_all.csv` |
-| nSL | `selection_scan/nsl_all_maf01.csv` |
-| Nucleotide diversity (π) | `selection_scan/pi_all_maf01.csv` |
-| SweepFinder2 | `sweepfinder/sweep_df_results100w_nb.csv` |
-| Omega | `omega/omega_grid1000.csv` |
+Notebooks: `selection_scan/`, `sweepfinder/sweepfinder.ipynb`, `omega/omega.ipynb`
 
 ---
 
@@ -33,17 +91,27 @@ Multiple statistics applied genome-wide to identify candidate sweep regions.
 
 ```
 preprocessing.ipynb            # Data preprocessing and filtering
-modern_vs_historical.ipynb     # Modern vs historical comparison
-selection_scan/                # iHH12, nSL, and π results
-sweepfinder/                   # SweepFinder2 results
-omega/                         # Omega statistic results
-climate/                       # Climate covariate data
+modern_vs_historical.ipynb     # Modern vs historical comparison (FST, ΔAF, Δπ, ΔHe)
+selection_scan/                # iHH12, nSL, π (selscan)
+sweepfinder/                   # SweepFinder2
+omega/                         # Omega statistic
+climate/                       # Climate covariate data for ecotypes and sites
+figures/                       # Result plots
 ```
+
+---
+
+## Possible follow-up analyses
+
+- Haplotype sharing between sweep peaks and candidate genes
+- Per-cluster GEA (e.g. Spanish ecotypes) to identify local/climate adaptation signals beyond global sweeps
 
 ---
 
 ## Tools & dependencies
 
-- [scikit-allel](https://scikit-allel.readthedocs.io/) — population genetics statistics (iHH12, nSL, π, FST)
-- [SweepFinder2](https://personal.utdallas.edu/~csw022000/sweepfinder2.html) — composite likelihood sweep detection
-- Python 3, Jupyter
+- [scikit-allel](https://scikit-allel.readthedocs.io/) — FST, π, ΔAF, ΔHe
+- [selscan](https://github.com/szpiech/selscan) — iHH12, nSL
+- [SweepFinder2](https://personal.utdallas.edu/~csw022000/sweepfinder2.html) — composite likelihood ratio sweep detection
+- [OmegaPlus](https://cme.h-its.org/exelixis/web/software/omegaplus/) — LD-based sweep detection
+- Python 3, R, Jupyter
