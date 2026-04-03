@@ -35,8 +35,6 @@ Around **AT4G05100**, the signal is more consistent with an **incomplete sweep**
 
 ---
 
----
-
 ## Analyses
 
 ### Modern vs historical
